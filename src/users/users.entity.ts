@@ -1,42 +1,24 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Chat } from 'src/chats/chats.entity';
+import { Room } from 'src/rooms/rooms.entity';
 
-@Entity('user')
-export class UserEntity {
+@Entity()
+export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id_user: number;
 
-  @Column({ length: 100, name: 'first_name', comment: 'Primer Nombre' })
-  firstName: string;
+  @Column()
+  telephone: string;
 
-  @Column({ length: 100, name: 'last_name', comment: 'Segundo Nombre' })
-  lastName: string;
+  @Column()
+  name: string;
 
-  @Column({ length: 20, comment: 'Telefono' })
-  phone: string;
+  @Column()
+  image: string;
 
-  @Column({ length: 100, comment: 'Correo Electronico' })
-  email: string;
+  @OneToMany(() => Chat, chat => chat.user)
+  chats: Chat[];
 
-  @Column({ length: 100, comment: 'Contraseña' })
-  password: string;
-
-  @CreateDateColumn({ name: 'birth_date', comment: 'Fecha de nacimiento' })
-  birthDate: Date;
-
-  @CreateDateColumn({ name: 'date_created', comment: 'Fecha de Creacion' })
-  dateCreated: Date;
-
-  @CreateDateColumn({
-    name: 'last_date_created',
-    comment: 'Ultima Fecha de Login',
-  })
-  lastDateCreated: Date;
-
-  @Column({ name: 'is_active', comment: 'Bandera de activo' })
-  isActive: boolean;
+  @OneToMany(() => Room, room => room.user)
+  rooms: Room[];
 }
